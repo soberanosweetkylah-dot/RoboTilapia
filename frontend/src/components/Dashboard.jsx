@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 // CSS
 import "../Dashboard.css";
@@ -16,10 +16,10 @@ import WaterParameters from "./WaterParameters.jsx";
 import RealTimeClock from "./RealTimeClock.jsx";
 import FeedingManagement from "./FeedingManagement.jsx";
 
-// Real Time Database
-import app from "../firebase.js";
-import { getDatabase, ref, set, push } from "firebase/database"; //Realtime database
+// utilities
+import { useAnimatedToggle } from "./utils.jsx";
 
+// DRY: Custom hook for toggling modals/sidebars with animation
 function Dashboard() {
   // TODO Add the user object from the homepage here for rendering of profile
   // Sample sched array (should use useState for dynamic updates)
@@ -35,76 +35,39 @@ function Dashboard() {
     detectionRate: 3,
     feedLevel: 50,
   });
-  // Database
-  const saveData = () => {
-    const db = getDatabase(ref);
+
+  // DRY: Use custom hook for sidebar and signout modal
+  const sidebar = useAnimatedToggle(300);
+  const signout = useAnimatedToggle(300);
+  const closeSignoutSideBar = () => {
+    sidebar.close();
+    signout.close();
   };
 
-  // For toggling side-bar
-  // TODO DRY ALERT Objects here
-  const [sidebarState, setSidebarState] = useState({
-    visible: false,
-    animating: false,
-  });
-  // For toggling sig-out-modal
-  const [showSignOut, setShowSignOut] = useState(false);
-  const [signOutFade, setSignOutFade] = useState(false);
-
-  // TODO should the objects be in one place?
-  // Sidebar animation state and handlers as an object
-  const sidebar = {
-    visible: sidebarState.visible,
-    animating: sidebarState.animating,
-    open: () => setSidebarState({ visible: true, animating: true }),
-    close: () => {
-      setSidebarState((prev) => ({ ...prev, animating: false }));
-      setTimeout(
-        () => setSidebarState({ visible: false, animating: false }),
-        300
-      );
-    },
-    shouldRender: sidebarState.visible || sidebarState.animating,
-    getClass: () =>
-      `side-bar-navigation ${
-        sidebarState.animating ? "slide-in" : "slide-out"
-      }`,
-  };
-  // signout functions
-  const signout = {
-    open: () => {
-      setShowSignOut(true);
-      setSignOutFade(true);
-    },
-    close: () => {
-      setSignOutFade(false);
-      setTimeout(() => {
-        setShowSignOut(false);
-        sidebar.close(); // Also close the sidebar
-      }, 300);
-    },
-  };
   // Closes sign out and modal when pressed esc
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === "Escape") {
-        if (showSignOut) signout.close();
+        if (signout.shouldRender) signout.close();
         else if (sidebar.shouldRender) sidebar.close();
       }
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [showSignOut, sidebar.shouldRender]);
+  }, [signout.shouldRender, sidebar.shouldRender, signout, sidebar]);
 
   return (
     <>
+      {/* Sidebar */}
       {sidebar.shouldRender && (
         <div
-          className={sidebar.getClass()}
+          className={`side-bar-navigation ${
+            sidebar.animating ? "slide-in" : "slide-out"
+          }`}
           onClick={(e) => {
             // Only close if clicking the background, not a child
             if (e.target.classList.contains("side-bar-navigation"))
               sidebar.close();
-            console.log(e);
           }}
         >
           <button className="close-side-bar" onClick={sidebar.close}>
@@ -120,16 +83,19 @@ function Dashboard() {
           </nav>
         </div>
       )}
-      {showSignOut && (
+      {/* Signout modal */}
+      {signout.shouldRender && (
         <>
           <div
             className={`sign-out-layout ${
-              signOutFade ? "fade-in" : "fade-out"
+              signout.animating ? "fade-in" : "fade-out"
             }`}
             onClick={signout.close}
           ></div>
           <div
-            className={`sign-out-modal ${signOutFade ? "fade-in" : "fade-out"}`}
+            className={`sign-out-modal ${
+              signout.animating ? "fade-in" : "fade-out"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             <h1>Are you sure you want to sign out?</h1>
@@ -139,10 +105,13 @@ function Dashboard() {
                 Yes
               </Link>
             </button>
-            <button className="cancel-sign-out" onClick={signout.close}>
+            <button className="cancel-sign-out" onClick={closeSignoutSideBar}>
               No
             </button>
-            <button className="close-sign-out-modal" onClick={signout.close}>
+            <button
+              className="close-sign-out-modal"
+              onClick={closeSignoutSideBar}
+            >
               <img src={CloseBtnDark} />
             </button>
           </div>
