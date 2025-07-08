@@ -1,8 +1,6 @@
 import React from "react";
 
 function WaterParameters({ sensorReadings, temp }) {
-
-  
   return (
     <div className="water-parameter-data">
       <section className="sensor-data-section">
@@ -54,9 +52,16 @@ export default WaterParameters;
 
 // Function for styles (color code)
 const colorCode = (sensor, readings) => {
+  if (readings === undefined) {
+    return { color: "#D3D3D3" }; // Default color for undefined readings
+  }
   switch (sensor) {
     case "temperature": {
-      return readings > 25 ? { color: "#D2222D" } : { color: "#238823" };
+      return readings >= 24 && readings <= 26
+        ? { color: "#238823" }
+        : (readings > 26 && readings <= 28) || (readings < 24 && readings >= 22)
+        ? { color: "#FFBF00" }
+        : { color: "#D2222D" };
     }
   }
 };
