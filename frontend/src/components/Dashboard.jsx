@@ -17,7 +17,7 @@ import RealTimeClock from "./RealTimeClock.jsx";
 import FeedingManagement from "./FeedingManagement.jsx";
 
 // utilities
-import { useAnimatedToggle } from "./utils.jsx";
+import { useAnimatedToggle, useReadDatabase } from "./utils.jsx";
 
 // DRY: Custom hook for toggling modals/sidebars with animation
 function Dashboard() {
@@ -28,7 +28,7 @@ function Dashboard() {
     { schedId: Date.now() + 2, time: "12:20 AM", isDeleted: false },
     { schedId: Date.now() + 3, time: "12:10 AM", isDeleted: false },
   ]);
-  const [readings, setReadings] = useState({
+  const [tmpReadings, setTmpreadings] = useState({
     ammonia: 0.5,
     pH: 7.9,
     temperature: 25,
@@ -37,6 +37,11 @@ function Dashboard() {
   });
 
   // DRY: Use custom hook for sidebar and signout modal
+
+  const { readings, setReadings } = useReadDatabase();
+  useEffect(() => {
+    console.log(readings);
+  }, []);
   const sidebar = useAnimatedToggle(300);
   const signout = useAnimatedToggle(300);
   const closeSignoutSideBar = () => {
@@ -142,11 +147,11 @@ function Dashboard() {
           </button>
         </div>
         <div className="content-section">
-          {/* Water Paramert Monitoring Section */}
-          <WaterParameters sensorReadings={readings} />
+          {/* Water Parameter Monitoring Section */}
+          <WaterParameters sensorReadings={tmpReadings} temp={readings} />
           {/* Feeding Management Section */}
           <FeedingManagement
-            sensorReadings={readings}
+            sensorReadings={tmpReadings}
             feedingSched={schedArr}
           />
         </div>
