@@ -31,7 +31,7 @@ export function useReadDatabase() {
         const snapshot = await get(dbRef);
         if (!snapshot.exists()) throw new Error("Error getting database");
         setReadings(snapshot.val());
-        console.log(snapshot.val());
+        // console.log(snapshot.val());
       } catch (err) {
         console.log(err);
       }

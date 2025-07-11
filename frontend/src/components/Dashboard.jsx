@@ -37,8 +37,9 @@ function Dashboard() {
   });
 
   // DRY: Use custom hook for sidebar and signout modal
-
+  // Sensor Readings
   const { readings, setReadings } = useReadDatabase();
+  
   useEffect(() => {
     console.log(readings);
   }, []);
