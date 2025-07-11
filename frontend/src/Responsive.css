@@ -1,0 +1,25 @@
+/* Responsive web app: Media query */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .nav {
+    display: none; /* Hide navigation on small screens */
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 12px;
+  }
+}
