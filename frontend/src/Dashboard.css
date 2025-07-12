@@ -1,10 +1,11 @@
 .dashboard {
   height: 100vh;
   width: 100vw;
-  display: grid;
-  grid-template-rows: 120px 1fr;
+  display: flex;
+  flex-direction: column;
   font-family: "Noto Sans Devanagari", sans-serif;
-  overflow: hidden;
+  overflow-x: hidden !important;
+  /* overflow-y: hidden !important; */
 }
 /* side bar--------------------------------------------- */
 .side-bar-navigation {
@@ -123,7 +124,7 @@
 /* top bar --------------------------------------------- */
 .tilapia-bg-layout {
   width: 100vw;
-  height: 100px;
+  height: 110px;
   position: fixed;
   background-color: #153147;
   z-index: 0;
@@ -131,14 +132,14 @@
 .tilapia-bg-layout img {
   width: 100vw;
   background-size: cover;
-  height: 120px;
+  height: 110px;
   object-fit: cover;
 }
 .top-bar {
   z-index: 2;
   position: fixed;
   box-sizing: border-box;
-  height: 120px;
+  height: 110px;
   width: 100vw;
   display: flex;
   flex-direction: row;
@@ -150,8 +151,6 @@
   margin: 0;
   padding: 0;
 }
-/* Profile section */
-/* TODO How to fold this entire section */
 .profile-section {
   margin-left: 1%;
   display: flex;
@@ -201,18 +200,18 @@
   word-break: break-word;
 }
 .menu {
-  width: 100px;
-  height: 100px;
+  margin: 0 auto;
   background-color: transparent;
   border: none;
-  margin-left: auto;
-  margin-right: 1%;
+  margin: 0 2%;
   cursor: pointer;
 }
+.menu,
 .menu img {
   width: 40px;
   height: 40px;
 }
+
 .menu:focus {
   outline: none;
   box-shadow: none;
@@ -227,39 +226,47 @@
   display: flex;
   flex-direction: column;
   color: #232a2f;
-  margin-top: 120px;
+  margin-top: 110px;
+  overflow-y: hidden;
+  overflow-x: hidden !important;
+  min-height: calc(100vh - 110px); /* adjust for your header height */
+  /* Hide scrollbar for WebKit (Chrome, Safari) */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 }
 
 /* Water Parameter data section------------------------------------- */
 .water-parameter-data {
-  display: grid;
-  grid-template-columns: 1fr 700px;
-  height: 43vh;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
 }
 .sensor-data-section {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 5%;
+  margin-left: 3%;
+}
+.sensor-data-section h1 {
+  font-size: 1.17rem;
 }
 
-/* TODO  Make this section responsive */
 .sensor-data-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: row;
   height: 80%;
 }
-
 /* Make the contents inside the div have equal height */
 .sensor-data-container div {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 30px 1fr 20px;
+  display: flex;
+  flex-direction: column;
   width: 180px;
   background-color: #edeae4;
-  margin: 4px;
+  margin: 0 1%;
+  /* margin: 4p; */
   padding: 15px;
   border-radius: 10px;
-  justify-content: center;
+  justify-content: space-between;
   cursor: pointer;
 }
 .sensor-data-container div:hover {
@@ -267,18 +274,23 @@
   color: #232a2f;
   transition: 0.2s;
 }
+.sensor-data-container div:active {
+  opacity: 0.7;
+}
 .sensor-data-container div h2 {
-  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
   margin: 0;
   word-break: break-word;
 }
 .sensor-data-container div p {
-  height: 50%;
+  flex: 1;
   text-align: center;
   font-weight: 600;
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(1.7rem, 2.5vw, 2.5rem);
   margin: 0;
-  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   word-break: break-word;
 }
 .fish-behavior-readings {
@@ -286,18 +298,19 @@
   font-size: clamp(1.2rem, 2vw, 2rem) !important;
   word-break: break-word;
 }
-.fish-behavior-detection-rate {
+/* .fish-behavior-detection-rate {
   font-size: clamp(0.7rem, 1vw, 1rem) !important;
   height: 10%;
   margin-top: 5%;
   align-self: flex-start;
   word-break: break-word;
-}
+} */
 
 /* Sensor Analytics */
 .sensor-analytics-section {
-  margin: 3% 3% 5% 5%;
-  height: 100%;
+  width: 35% !important;
+  margin: 1% 3% 0 3%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   background-color: #edeae4;
@@ -307,73 +320,91 @@
 .sensor-analytics-section p {
   margin: 2% 0 2% 2%;
   padding: 10px;
-  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+
   word-break: break-word;
 }
 /* Feeding Management Section-----------------------------------------------------------*/
 .feeding-management {
-  margin: 1% 1% 1% 3%;
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 650px;
+  height: 50%;
+  display: flex;
+  flex-direction: row;
   border-radius: 10px;
 }
 .feeding-data h1 {
-  margin: 0;
   font-size: 1.17em;
   margin-block-start: 0;
   margin-bottom: 1%;
 }
 .feeding-data {
-  height: 100%;
+  margin: 1% 3%;
+  flex: 1;
+  height: 40vh;
   display: flex;
   flex-direction: column;
 }
 .feed-management-container {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 300px 1fr;
+  height: 43vh;
+  display: flex;
+  flex-direction: row;
   column-gap: 2%;
 }
 .feed-level-status-container,
 .feed-input-schedule-container {
   background-color: #edeae4;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .feed-level-status-container {
+  width: 18vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
 }
 .feed-level-status-container p {
   align-self: center;
 }
-.feed-level-status-container h1 {
-  margin-bottom: 0;
-}
+
 .feed-level-percentage {
+  flex: 1 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 600;
+  font-weight: 500;
   margin: 0;
   word-break: break-word;
+  margin-right: 2%;
 }
 .feed-input-schedule-container {
+  flex: 1;
   background-color: #edeae4;
-  margin-right: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
 }
 .feed-input-schedule-container h1,
 .feed-level-status-container h1 {
   margin: 0 0 0 3%;
-  align-self: flex-start;
-  font-size: 15px;
+  align-self: flex-start !important;
+  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+  display: flex;
+  align-items: center;
+  height: 20%;
+}
+
+.feed-level-status-container h2,
+.feed-input-schedule-container h2 {
+  margin: 0;
+  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+  text-align: start;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 20%;
 }
 
 .feed-input-schedule-container input[type="time"] {
-  width: 50%;
+  margin: 5% 0;
+  width: 60%;
   height: 50px;
   font-size: 35px;
   outline: none;
@@ -402,16 +433,37 @@
 }
 
 .feeding-schedule-container {
+  height: 40vh !important;
+  width: 35%;
   background-color: #edeae4;
-  margin: 2% 10% 0 0;
+  margin: 1% 3%;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  height: 40vh;
 }
 .feeding-schedule-container h1 {
   margin: 2% 0 3% 3%;
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
   word-break: break-word;
+}
+.feeding-schedule-scrollable {
+  overflow-x: hidden;
+  overflow-y: auto; /* use auto instead of scroll to only show scrollbar when needed */
+  height: 80%; /* or max-height: 300px; adjust as needed */
+  width: 80%;
+  margin: 0 auto;
+  padding: 10px 50px;
+  margin-bottom: 2%;
+  border-bottom: 1px solid #15314723;
+  border-top: 1px solid #15314730;
+  /* Hide scrollbar for WebKit (Chrome, Safari) */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.feeding-schedule-scrollable::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 .feeding-schedule {
   display: flex;
@@ -422,14 +474,14 @@
   align-items: center;
   background-color: #aeb7bc5b;
   margin: 1%;
-  width: 80%;
-  height: 50px;
+  width: 100% !important;
+  height: 30%;
   border-radius: 10px;
 }
 .feeding-schedule h1 {
   margin: auto 0;
   margin-left: 5%;
-  font-size: clamp(1.2rem, 2vw, 2rem);
+  font-size: clamp(1rem, 2vw, 1.5rem);
   letter-spacing: 4px;
   word-break: break-word;
 }
@@ -443,4 +495,27 @@
 .feeding-schedule button img {
   width: 30px;
   height: 30px;
+}
+button,
+.sensor-data-container div,
+.menu,
+.feeding-schedule button,
+.close-side-bar,
+.side-bar-navigation nav h1,
+.close-sign-out-modal,
+input[type="submit"] {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: none;
+}
+
+button:focus,
+.sensor-data-container div:focus .menu:focus,
+.feeding-schedule button:focus,
+.close-side-bar:focus,
+.side-bar-navigation nav h1:focus,
+.close-sign-out-modal:focus,
+input[type="submit"]:focus {
+  outline: none;
+  box-shadow: none;
 }

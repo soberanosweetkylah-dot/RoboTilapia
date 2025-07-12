@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 // CSS
 import "../Dashboard.css";
 import "../Transition.css";
+import "../Responsive.css";
 
 // Assets
 import ProfilePic from "../assets/profile-pic.png";
@@ -39,7 +40,7 @@ function Dashboard() {
   // DRY: Use custom hook for sidebar and signout modal
   // Sensor Readings
   const { readings, setReadings } = useReadDatabase();
-  
+
   useEffect(() => {
     console.log(readings);
   }, []);

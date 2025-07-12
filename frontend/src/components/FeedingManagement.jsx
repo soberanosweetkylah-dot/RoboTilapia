@@ -8,12 +8,12 @@ function FeedingManagement({ sensorReadings, feedingSched }) {
         <h1>Feeding Management</h1>
         <div className="feed-management-container">
           <div className="feed-level-status-container">
-            <h1>Feed Level</h1>
+            <h2>Feed Level</h2>
             <p className="feed-level-percentage">{sensorReadings.feedLevel}%</p>
-            <p className="feed-level-description">Close to being empty</p>
+            {/* <p className="feed-level-description">Close to being empty</p> */}
           </div>
           <form className="feed-input-schedule-container">
-            <h1>Feed Input</h1>
+            <h2>Feed Input</h2>
             <input id="feeding-input-time" type="time" />
             <input id="feeding-submit-btn" type="submit" />
           </form>
@@ -21,16 +21,18 @@ function FeedingManagement({ sensorReadings, feedingSched }) {
       </div>
       <div className="feeding-schedule-container">
         <h1>Feeding Schedule</h1>
-        {feedingSched.map((sched, i) => {
-          if (sched.isDeleted) return null;
-          return (
-            <FeedingSchedule
-              key={sched.schedId}
-              id={sched.schedId}
-              sched={sched}
-            />
-          );
-        })}
+        <div className="feeding-schedule-scrollable">
+          {feedingSched.map((sched, i) => {
+            if (sched.isDeleted) return null;
+            return (
+              <FeedingSchedule
+                key={sched.schedId}
+                id={sched.schedId}
+                sched={sched}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

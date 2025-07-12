@@ -1,25 +1,312 @@
-/* Responsive web app: Media query */
-@media (max-width: 600px) {
-  body {
-    font-size: 14px;
-    padding: 10px;
+/* Regular responsive layout */
+@media (max-width: 1160px) {
+  .content-section {
+    overflow-y: auto;
+    height: calc(200vh - 110px);
   }
-
-  .header {
+  .time-date {
+    width: 40vw;
+  }
+  .time-date h1 {
+    color: #232a2f;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    word-break: break-word;
+  }
+  .sensor-data-section {
+    width: 90vw;
+  }
+  .sensor-data-container {
+    width: 100% !important;
+  }
+  .sensor-data-container div {
+    width: 30vw;
+    margin: 1% !important;
+  }
+  .sensor-data-container div h2 {
+    font-size: 13px;
+  }
+  .sensor-data-section {
+    height: 100vh;
+    margin: 0;
+  }
+  .sensor-data-section div {
+    margin: 1% 0;
+  }
+  .sensor-analytics-section {
+    width: 60vw !important;
+    margin: 0 !important;
+    flex: 1;
+  }
+  .water-parameter-data {
+    min-height: calc(100vh - 110px);
+    margin: 0;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
+  }
+  .feeding-management {
+    /* min-height: calc(100vh - 120px) !important; */
+    min-height: calc(100vh - 110px);
+    display: flex;
+    margin: 0 !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .feed-management-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
   }
-  .nav {
-    display: none; /* Hide navigation on small screens */
+
+  .feed-level-status-container {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 2%;
+  }
+  .feed-input-schedule-container {
+    width: 100%;
+    height: 90% !important;
+    display: flex;
+    flex-direction: row;
+    margin: 2%;
+  }
+  .feed-input-schedule-container h2,
+  .feed-level-status-container h2 {
+    margin: 2%;
+    font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+    display: flex;
+    justify-content: flex-start;
+    align-self: flex-start;
+  }
+  .feed-level-status-container p {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2%;
+    font-size: 30px;
+  }
+  .feed-input-schedule-container input[type="time"] {
+    font-size: 25px;
+    padding: 10px 10px 10px 10px;
+    margin: 0;
+    cursor: pointer;
+  }
+  .feed-input-schedule-container input[type="submit"] {
+    height: 40px;
+    width: 110px;
+    margin: 2%;
+    font-size: 15px;
   }
 
-  .content {
-    padding: 15px;
+  .feeding-data {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    flex: 1;
+    margin: 0;
   }
 
-  .footer {
-    text-align: center;
-    font-size: 12px;
+  .feeding-schedule-container {
+    width: 90vw;
+    height: 70vh !important;
+    margin: 0;
   }
 }
+/* Regular Responsive layout */
+@media (max-width: 700px) {
+  .side-bar-navigation {
+    width: 100vw;
+  }
+  .side-bar-navigation nav h1 {
+    font-size: 25px;
+  }
+  .sign-out-modal {
+    width: 90vw;
+  }
+  .sign-out-modal h1 {
+    font-size: 15px;
+  }
+  .sign-out-modal button {
+    font-size: 15px;
+  }
+  .content-section {
+    width: 100vw !important;
+    height: 200vh;
+  }
+  .time-date {
+    width: 200px;
+  }
+  .time-date h1 {
+    font-size: 10px;
+  }
+  .profile-section h3 {
+    font-size: 12px;
+  }
+  .profile-section h4 {
+    font-size: 10px;
+  }
+  .profile-pic {
+    height: 40px;
+  }
+  .menu,
+  .menu img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sensor-data-container {
+    margin: 0;
+    height: 100%;
+  }
+  .sensor-data-container div {
+    margin: 2% 0;
+    height: 30%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between !important;
+    align-items: center;
+  }
+
+  .sensor-data-container div p {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  .sensor-data-container {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+  }
+  .feeding-data {
+    height: 40%;
+  }
+  .feeding-data h1 {
+    font-size: 17px;
+  }
+
+  .sensor-analytics-section {
+    height: 10vh;
+    width: 90vw !important;
+    margin: 0 !important;
+  }
+
+  .feed-management-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .feed-level-status-container {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2%;
+  }
+  .feed-input-schedule-container {
+    width: 100%;
+    height: 100% !important;
+    display: flex;
+    flex-direction: row;
+    margin: 2%;
+  }
+  .feed-input-schedule-container input[type="time"] {
+    font-size: 18px;
+    width: 50% !important;
+    padding: 10px 10px 10px 10px;
+    margin: 0;
+    cursor: pointer;
+  }
+  .feed-input-schedule-container input[type="submit"] {
+    height: 40px;
+    width: 110px;
+    margin: 2%;
+    font-size: 15px;
+  }
+  .feed-level-status-container h1,
+  .feed-input-schedule-container h1 {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .feed-input-schedule-container {
+    height: 50%;
+  }
+  .feeding-schedule-container h1 {
+    font-size: 14px;
+  }
+  .feeding-schedule button img {
+    width: 20px;
+    height: 20px;
+  }
+  .feeding-schedule-scrollable {
+    overflow-x: hidden;
+    overflow-y: auto; /* use auto instead of scroll to only show scrollbar when needed */
+    height: 60%; /* or max-height: 300px; adjust as needed */
+    width: 100%;
+  }
+}
+/* Iphone 12-------------------------------------------------------- */
+@media (max-width: 700px) and (max-height: 391px) {
+  .time-date {
+    width: 1000px;
+  }
+  .time-date h1 {
+    font-size: 10px;
+  }
+  .profile-section h3 {
+    font-size: 10px;
+  }
+  .profile-section h4 {
+    font-size: 8px;
+  }
+  .profile-pic {
+    height: 40px;
+  }
+  .menu,
+  .menu img {
+    width: 20px;
+    height: 20px;
+  }
+  .water-parameter-data {
+    height: 100vh;
+  }
+  .sensor-data-section {
+    margin: 0 !important;
+    height: 100% !important;
+  }
+
+  .feeding-data h1 {
+    font-size: 17px;
+  }
+
+  .sensor-analytics-section {
+    height: 50vh;
+    width: 90vw !important;
+    margin: 0 !important;
+  }
+  .feed-level-status-container h1,
+  .feed-input-schedule-container h1 {
+    font-size: 13px;
+    font-weight: 500;
+    width: 10%;
+  }
+
+  .feeding-schedule-container h1 {
+    font-size: 14px;
+  }
+  .feeding-schedule button img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+

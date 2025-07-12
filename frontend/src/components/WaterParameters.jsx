@@ -1,5 +1,5 @@
 import React from "react";
-
+// BUG: There is something wrong with the overall layout dashboard
 function WaterParameters({ sensorReadings, temp }) {
   return (
     <div className="water-parameter-data">
@@ -34,9 +34,9 @@ function WaterParameters({ sensorReadings, temp }) {
             <p className="fish-behavior-readings">
               {sensorReadings.detectionRate >= 3 ? "Above Normal" : "Normal"}
             </p>
-            <p className="fish-behavior-detection-rate">
+            {/* <p className="fish-behavior-detection-rate">
               {sensorReadings.detectionRate} detection/min
-            </p>
+            </p> */}
           </div>
         </div>
       </section>
