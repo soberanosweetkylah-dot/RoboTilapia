@@ -38,7 +38,7 @@
     flex: 1;
   }
   .water-parameter-data {
-    min-height: calc(100vh - 110px);
+    min-height: 500px;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -48,7 +48,7 @@
   }
   .feeding-management {
     /* min-height: calc(100vh - 120px) !important; */
-    min-height: calc(100vh - 110px);
+    min-height: 500px;
     display: flex;
     margin: 0 !important;
     flex-direction: column;
@@ -114,7 +114,7 @@
 
   .feeding-schedule-container {
     width: 90vw;
-    height: 70vh !important;
+    min-height: 230px;
     margin: 0;
   }
 }
@@ -159,7 +159,13 @@
     width: 20px;
     height: 20px;
   }
-
+  .water-parameter-data {
+    min-height: 800px !important;
+  }
+  .feeding-management {
+    /* min-height: calc(100vh - 120px) !important; */
+    min-height: 500px;
+  }
   .sensor-data-container {
     margin: 0;
     height: 100%;
@@ -254,10 +260,58 @@
     width: 100%;
   }
 }
+
+/* iPads */
+@media only screen and (min-width: 768px) and (max-width: 1366px) {
+  .side-bar-navigation {
+    width: 100vw;
+  } .side-bar-navigation nav{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+  }
+  .side-bar-navigation nav h1 {
+    font-size: 30px;
+    
+  }
+  .close-side-bar {
+    height: 50px;
+    width: 50px;
+  } 
+
+  .sign-out-modal {
+    width: 50vw;
+  }
+  .sign-out-modal h1 {
+    font-size: 25px;
+  }
+  .sign-out-modal button {
+    font-size: 20px;
+  }
+  .close-sign-out-modal img {
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+  }
+  .sensor-data-container div h2,
+  .sensor-analytics-section h1,
+  .feed-level-status-container h2,
+  .feed-input-schedule-container h2,
+  .feeding-schedule-container h1 {
+    font-size: 20px;
+  }
+  .sensor-data-container div p {
+    font-size: 25px;
+  }
+}
+
+
 /* Iphone 12-------------------------------------------------------- */
 @media (max-width: 700px) and (max-height: 391px) {
   .time-date {
-    width: 1000px;
+    width: 50vh;
   }
   .time-date h1 {
     font-size: 10px;
@@ -276,9 +330,7 @@
     width: 20px;
     height: 20px;
   }
-  .water-parameter-data {
-    height: 100vh;
-  }
+
   .sensor-data-section {
     margin: 0 !important;
     height: 100% !important;
@@ -309,4 +361,21 @@
   }
 }
 
-
+/* Ipads
+@media only screen and (min-width: 900px) and (max-width: 1400px) and (-webkit-min-device-pixel-ratio: 2) {
+  .content-section {
+    height: 100vh !important;
+  }
+  .water-parameter-data {
+    height: 50vh;
+  }
+  .sensor-data-container {
+    height: 30%;
+  }
+  .sensor-data-container div h2 {
+    font-size: 20px;
+  }
+  .sensor-analytics-section {
+    height: 100px;
+  }
+} */
