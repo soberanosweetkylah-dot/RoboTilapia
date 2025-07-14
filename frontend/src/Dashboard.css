@@ -363,6 +363,8 @@
   width: 18vw;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .feed-level-status-container p {
   align-self: center;
@@ -386,19 +388,11 @@
   flex-direction: column;
   align-items: center;
 }
-.feed-input-schedule-container h1,
-.feed-level-status-container h1 {
-  margin: 0 0 0 3%;
-  align-self: flex-start !important;
-  font-size: clamp(0.9rem, 1.2vw, 1.2rem);
-  display: flex;
-  align-items: center;
-  height: 20%;
-}
+
 
 .feed-level-status-container h2,
 .feed-input-schedule-container h2 {
-  margin: 0;
+  margin-top: 1%;
   font-size: clamp(0.9rem, 1.2vw, 1.2rem);
   text-align: start;
   display: flex;
@@ -422,6 +416,7 @@
 .feed-input-schedule-container input[type="submit"] {
   height: 50px;
   width: 120px;
+  margin-bottom: 2%;
   font-size: 18px;
   border-radius: 10px;
   border: none;
