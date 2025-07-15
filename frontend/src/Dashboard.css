@@ -24,7 +24,6 @@
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   overflow-y: auto;
-
 }
 .close-side-bar {
   align-self: flex-end;
@@ -310,7 +309,6 @@
   align-self: flex-start;
   word-break: break-word;
 } */
-
 /* Sensor Analytics */
 .sensor-analytics-section {
   width: 35% !important;
@@ -320,14 +318,25 @@
   flex-direction: column;
   background-color: #edeae4;
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
 }
-.sensor-analytics-section h1,
-.sensor-analytics-section p {
-  margin: 2% 0 2% 2%;
+.sensor-analytics-section h1 {
+  margin: 2% 0 0 2%;
   padding: 10px;
   font-size: clamp(0.9rem, 1.2vw, 1.2rem);
-
   word-break: break-word;
+  text-align: start !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
+/* Chart */
+.chart-container {
+  flex: 1;
+  width: 80%;
 }
 /* Feeding Management Section-----------------------------------------------------------*/
 .feeding-management {
@@ -439,6 +448,8 @@
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .feeding-schedule-container h1 {
   margin: 2% 0 3% 3%;
