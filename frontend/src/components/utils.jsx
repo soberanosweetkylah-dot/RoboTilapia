@@ -17,27 +17,31 @@ export function useAnimatedToggle(duration = 300) {
 }
 
 // Read data from firebase Realtime Database
-import app from "../firebase.js";
-import { getDatabase, ref, get } from "firebase/database";
+import { app } from "../firebase.js";
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+  onValue,
+  update,
+  remove,
+  Database,
+} from "firebase/database";
 
 export function useReadDatabase() {
   const [readings, setReadings] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const db = getDatabase(app);
-        const dbRef = ref(db, "dht11");
-        const snapshot = await get(dbRef);
-        if (!snapshot.exists()) throw new Error("Error getting database");
-        setReadings(snapshot.val());
-        // console.log(snapshot.val());
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, [readings]);
+    const db = getDatabase(app);
+    const dbRef = ref(db, "/sensors");
+
+    const unsubscribe = onValue(dbRef, (snapshot) => {
+      setReadings(snapshot.val());
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return { readings, setReadings };
 }

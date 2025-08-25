@@ -272,6 +272,7 @@
   border-radius: 10px;
   justify-content: space-between;
   cursor: pointer;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1) !important;
 }
 .sensor-data-container div:hover {
   background-color: #c9ced06d;
@@ -322,6 +323,7 @@
   flex-direction: column;
 
   align-items: center;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1) !important;
 }
 .sensor-analytics-section h1 {
   margin: 2% 0 0 2%;
@@ -367,6 +369,7 @@
 .feed-input-schedule-container {
   background-color: #edeae4;
   border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1) !important;
 }
 .feed-level-status-container {
   width: 18vw;
@@ -450,6 +453,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1) !important;
 }
 .feeding-schedule-container h1 {
   margin: 2% 0 3% 3%;

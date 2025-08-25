@@ -20,10 +20,7 @@ import FeedingManagement from "./FeedingManagement.jsx";
 // utilities
 import { useAnimatedToggle, useReadDatabase } from "./utils.jsx";
 
-// DRY: Custom hook for toggling modals/sidebars with animation
 function Dashboard() {
-  // TODO Add the user object from the homepage here for rendering of profile
-  // Sample sched array (should use useState for dynamic updates)
   const [schedArr, setSchedArr] = useState([
     { schedId: Date.now() + 1, time: "12:30 AM", isDeleted: false },
     { schedId: Date.now() + 2, time: "12:20 AM", isDeleted: false },
@@ -37,7 +34,6 @@ function Dashboard() {
     feedLevel: 50,
   });
 
-  // DRY: Use custom hook for sidebar and signout modal
   // Sensor Readings
   const { readings, setReadings } = useReadDatabase();
 
@@ -150,7 +146,7 @@ function Dashboard() {
         </div>
         <div className="content-section">
           {/* Water Parameter Monitoring Section */}
-          <WaterParameters sensorReadings={tmpReadings} temp={readings} />
+          <WaterParameters tmpReadings={tmpReadings} readings={readings} />
           {/* Feeding Management Section */}
           <FeedingManagement
             sensorReadings={tmpReadings}

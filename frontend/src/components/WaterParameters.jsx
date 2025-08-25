@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import useChart from "./useChart.jsx";
 
-function WaterParameters({ sensorReadings, temp }) {
+function WaterParameters({ tmpReadings, readings }) {
   // Sample data for chart for hourly readings
   const [chartType, setChartType] = useState("line");
   const [chart, setChart] = useState("ammonia");
-
+  const chartFocus = useRef();
   // create
   const temperatureReading = useMemo(
     () => ({
@@ -69,6 +69,18 @@ function WaterParameters({ sensorReadings, temp }) {
     []
   );
 
+  // Focus to chart and set chart
+  const activateChart = (e) => {
+    const readings = e.target.className;
+    console.log(readings);
+    setChart(readings);
+
+  // Scroll to the chart section
+    if (chartRef.current) {
+      chartRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   // const sensorOptions = useMemo(()=>({}),[])
   // const options = useMemo(
   //   () => ({
@@ -103,47 +115,41 @@ function WaterParameters({ sensorReadings, temp }) {
       <section className="sensor-data-section">
         <h1>Water Parameter Sensor Data</h1>
         <div className="sensor-data-container">
-          <div
-            className="ammonia-container"
-            onClick={() => setChart("ammonia")}
-          >
+          <div onClick={activateChart}>
             <h2>Ammonia level</h2>
-            <p className="ammonia-readings">{sensorReadings.ammonia} ppm</p>
+            <p className="ammonia">{readings?.ammonia} ppm</p>
           </div>
 
           {/* pH sensor readings */}
-          <div className="pH-container" onClick={() => setChart("pH")}>
+          <div onClick={activateChart}>
             <h2>pH Level</h2>
-            <p className="pH-readings">{sensorReadings.pH}</p>
+            <p className="pH">{readings?.pH}</p>
           </div>
 
           {/* Temperature sensor readings */}
-          <div
-            className="temperature-container"
-            onClick={() => setChart("temperature")}
-          >
+          <div onClick={activateChart}>
             <h2>Temperature</h2>
             <p
-              className="temperature-readings"
-              style={colorCode("temperature", temp?.temperature)}
+              className="temperature"
+              style={colorCode("temperature", readings?.temperature)}
             >
-              {temp?.temperature} C
+              {readings?.temperature} C
             </p>
           </div>
 
           {/* Fish Behavior sensor readings */}
-          <div className="fish-behavior-container">
+          <div>
             <h2>Fish Behavior</h2>
-            <p className="fish-behavior-readings">
-              {sensorReadings.detectionRate >= 3 ? "Above Normal" : "Normal"}
+            <p onClick={activateChart}>
+              {readings?.fishBehavior >= 3 ? "Above Normal" : "Normal"}
             </p>
             {/* <p className="fish-behavior-detection-rate">
-              {sensorReadings.detectionRate} detection/min
+              {readings.detectionRate} detection/min
             </p> */}
           </div>
         </div>
       </section>
-      <section className="sensor-analytics-section">
+      <section className="sensor-analytics-section" ref={chartFocus}>
         <h1>Sensor Analytics</h1>
         <div className="chart-container">
           <canvas style={{ flex: "1", width: "100%" }} ref={chartRef} />

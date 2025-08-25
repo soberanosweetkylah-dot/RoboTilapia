@@ -1,0 +1,394 @@
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.homepage {
+  background-color: #0b2132;
+  background: linear-gradient(#001c31, #063a62, #185b8e);
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+
+  background: 
+    /* scattered bluish glares at bottom */ radial-gradient(
+      circle at 1% 220%,
+      rgba(0, 180, 255, 0.5),
+      transparent 70%
+    ),
+    radial-gradient(circle at 100% 1%, rgba(50, 200, 255, 1), transparent 100%),
+    /* dark top fading downward */
+      linear-gradient(
+        to bottom,
+        #000000 0%,
+        #001122 60%,
+
+        #063a62 120%,
+        #0d4d80 150%
+      );
+
+  background-blend-mode: screen, overlay, multiply, normal;
+  background-size: cover;
+}
+
+/* iPhone-style frosted blur with grain */
+.homepage-layout {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+
+  /* Add grain effect */
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZmlsdGVyIGlkPSJub2lzZUZpbHRlciI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuOSIgbnVtT2N0YXZlcz0iNCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJ3aGl0ZSIgZmlsdGVyPSJ1cmwoI25vaXNlRmlsdGVyKSIvPjwvc3ZnPg==");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  mix-blend-mode: overlay; /* Makes the noise subtle */
+  opacity: 0.4; /* Control grain intensity */
+}
+
+/* Name app and logo-------------------------------------------- */
+.app-name {
+  color: #f9f8f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: auto;
+  margin: 0;
+  z-index: 2;
+}
+.app-name div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .app-name div img {
+  height: clamp(2.5rem, 10vw, 7rem);
+} */
+.app-name h1 {
+  font-size: clamp(2.5rem, 6vw, 3.5rem) !important;
+  margin: 0;
+  font-weight: 1000;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2%;
+}
+.app-name h1 a {
+  color: #a4a4a4;
+  font-size: clamp(2.5rem, 6vw, 3.5rem) !important;
+  margin: 0;
+  font-weight: 1000;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2%;
+}
+.app-name p {
+  font-size: clamp(0.5rem, 6vw, 1rem);
+  margin: 0;
+  margin-bottom: 10%;
+}
+
+.form-section {
+  flex: 0 0 auto;
+  margin-bottom: 3rem;
+  z-index: 2;
+}
+/* 🌌 Glass-style input fields */
+#username,
+#code,
+.signup-form input {
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08); /* frosted */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #f9f8f7;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Placeholder text softer */
+#username::placeholder,
+#code::placeholder,
+.signup-form input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Inputs focus = glow */
+#username:focus,
+#code:focus,
+.signup-form input:focus {
+  outline: none;
+  border: 1px solid rgba(0, 255, 200, 0.7);
+  box-shadow: 0 0 10px rgba(0, 255, 200, 0.5);
+}
+
+/* 🌟 Buttons - glowing accent */
+#login-btn,
+#signup-btn {
+  padding: 12px 30px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00b4ff, #00ffc8);
+  color: #0b2132;
+  box-shadow: 0 4px 20px rgba(0, 255, 200, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+#login-btn:hover,
+#signup-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 255, 200, 0.5);
+  opacity: 0.95;
+}
+
+/* Login page */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 10%;
+}
+#username,
+#code,
+#login-btn {
+  padding: 10px 30px;
+  margin-right: 1%;
+  border-radius: 10px;
+  border: none;
+  font-size: clamp(0.5rem, 2rem, 1rem);
+}
+
+/* Remove arrows from number input */
+#code::-webkit-outer-spin-button,
+#code::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#code[type="number"] {
+  -moz-appearance: textfield; /* For Firefox */
+}
+
+/* Remove focus outline */
+#username:focus,
+#code:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#code {
+  width: 10rem;
+}
+#login-btn {
+  cursor: pointer;
+}
+#login-btn:hover {
+  opacity: 0.8;
+}
+
+/* Sign up form ----------------------------------------------------- */
+.signup-form h1 {
+  color: #f9f8f7;
+}
+.signup-form h1 a {
+  color: #939393;
+}
+.signup-link {
+  font-size: clamp(0.5rem, 6rem, 0.9rem);
+  color: #f9f8f7;
+  font-weight: 200;
+  position: absolute;
+  margin-top: 2% !important;
+  bottom: -40px;
+  cursor: pointer;
+}
+
+.signup-link:hover {
+  color: rgb(0, 255, 200);
+}
+
+.signup-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 1rem;
+}
+
+/* Signup input fields */
+.signup-form input {
+  padding: 10px 30px;
+  border-radius: 10px;
+  border: none;
+  font-size: clamp(0.5rem, 2rem, 1rem);
+  width: 15rem;
+}
+
+/* Remove number input arrows if any */
+.signup-form input[type="number"],
+.signup-form input[type="tel"]::-webkit-inner-spin-button,
+.signup-form input[type="tel"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.signup-form input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Remove focus outline */
+.signup-form input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Signup button */
+#signup-btn {
+  padding: 10px 30px;
+  border-radius: 10px;
+  border: none;
+  font-size: clamp(0.5rem, 2rem, 1rem);
+  cursor: pointer;
+  /* ba ckground-color: #0b2132; */
+  color: #0b2132;
+  transition: opacity 0.2s ease;
+}
+
+#signup-btn:hover {
+  opacity: 0.8;
+}
+
+/* Login link below sign up form */
+.login-link {
+  font-size: clamp(0.5rem, 1rem, 0.9rem);
+  color: #f9f8f7;
+  font-weight: 200;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  color: rgb(0, 255, 200);
+}
+
+/* Responsiveness */
+/* Default styles are for wide screens (desktop) */
+
+/* Small adjustments for tablets */
+@media (max-width: 1024px) {
+  .app-name h1 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  }
+  .app-name p {
+    font-size: clamp(0.5rem, 4vw, 0.9rem);
+  }
+
+  #username,
+  #code,
+  #login-btn,
+  .signup-form input,
+  #signup-btn {
+    width: 12rem;
+    font-size: clamp(0.5rem, 1.5rem, 0.9rem);
+    padding: 8px 20px;
+  }
+
+  .login-form {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 5%;
+  }
+
+  .signup-form {
+    gap: 0.8rem;
+  }
+
+  .signup-link {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Small devices / phones */
+@media (max-width: 600px) {
+  .homepage {
+    padding: 10px;
+  }
+
+  .app-name h1 {
+    font-size: clamp(1.5rem, 8vw, 2rem);
+  }
+  .app-name p {
+    font-size: clamp(0.4rem, 5vw, 0.8rem);
+  }
+
+  .login-form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 5%;
+  }
+
+  #username,
+  #code,
+  #login-btn,
+  .signup-form input,
+  #signup-btn {
+    width: 100%;
+    padding: 8px 15px;
+    font-size: clamp(0.5rem, 1.2rem, 0.9rem);
+  }
+
+  .signup-link {
+    bottom: -25px;
+    font-size: clamp(0.4rem, 4vw, 0.8rem);
+  }
+
+  .login-link {
+    font-size: clamp(0.4rem, 4vw, 0.8rem);
+  }
+}
+
+/* Extra large screens (wide monitors) */
+@media (min-width: 1600px) {
+  #username,
+  #code,
+  #login-btn,
+  .signup-form input,
+  #signup-btn {
+    width: 18rem;
+    font-size: clamp(0.6rem, 2.5rem, 1.2rem);
+    padding: 12px 35px;
+  }
+
+  .app-name h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    height: 100px;
+  }
+
+  .app-name p {
+    font-size: clamp(0.6rem, 6vw, 1.2rem);
+  }
+}
