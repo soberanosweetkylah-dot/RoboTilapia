@@ -73,7 +73,7 @@ body {
 .app-name div {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-c.envontent: center;
   align-items: center;
 }
 
