@@ -23,3 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Firebase cache & local config
+.firebase/
+.firebase-tools.json
+
+# If using Firebase Emulator
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
