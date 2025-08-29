@@ -30,7 +30,7 @@ Chart.register(
   Tooltip,
   Legend
 );
-function useChart(data, options, type = "line") {
+function SensorChart(data, options, type = "line") {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
@@ -70,4 +70,4 @@ function useChart(data, options, type = "line") {
   return chartRef;
 }
 
-export default useChart;
+export default SensorChart;

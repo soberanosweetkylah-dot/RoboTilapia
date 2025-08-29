@@ -1,5 +1,21 @@
-import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+/**
+ * TODO:
+ *
+ *
+ * 3. Settings modal
+ * - create modal of settings
+ * - fill missing functions (more, about, and more)
+ *
+ * 4. Add SMS alert Firebase
+ *
+ * 5. responsivenss
+ *
+ * BUG hard to click yes button
+ *
+ */
+
+import { useState, useEffect, useRef } from "react";
+import { Outlet, Link, useLocation } from "react-router-dom";
 // CSS
 import "../Dashboard.css";
 import "../Transition.css";
@@ -8,38 +24,28 @@ import "../Responsive.css";
 // Assets
 import ProfilePic from "../assets/profile-pic.png";
 import MenuBtn from "../assets/menu.png";
-import TilapiaBG from "../assets/tilapia-bg.png";
 import CloseBtnLight from "../assets/close-btn-light.png";
 import CloseBtnDark from "../assets/close-btn-dark.png";
-
-// Key components
-import WaterParameters from "./WaterParameters.jsx";
-import RealTimeClock from "./RealTimeClock.jsx";
-import FeedingManagement from "./FeedingManagement.jsx";
+import monitoringIcon from "../assets/monitoring-icons/monitoring-icon.png";
+import feedManagementIcon from "../assets/monitoring-icons/feeding-management-icon.png";
+import settingsIcon from "../assets/monitoring-icons/settingss.png";
+import logoutIcon from "../assets/monitoring-icons/logout.png";
+import logo from "../assets/temp_logo.png";
 
 // utilities
-import { useAnimatedToggle, useReadDatabase } from "./utils.jsx";
+import {
+  useAnimatedToggle,
+  useReadDatabase,
+  useCurrentUser,
+} from "./utils.jsx";
+
+import { auth } from "../firebase.js";
 
 function Dashboard() {
-  const [schedArr, setSchedArr] = useState([
-    { schedId: Date.now() + 1, time: "12:30 AM", isDeleted: false },
-    { schedId: Date.now() + 2, time: "12:20 AM", isDeleted: false },
-    { schedId: Date.now() + 3, time: "12:10 AM", isDeleted: false },
-  ]);
-  const [tmpReadings, setTmpreadings] = useState({
-    ammonia: 0.5,
-    pH: 7.9,
-    temperature: 25,
-    detectionRate: 3,
-    feedLevel: 50,
-  });
-
   // Sensor Readings
-  const { readings, setReadings } = useReadDatabase();
+  const { readings, loading } = useReadDatabase("/machines/machine0/sensors");
+  // const { userData } = useCurrentUser();
 
-  useEffect(() => {
-    console.log(readings);
-  }, []);
   const sidebar = useAnimatedToggle(300);
   const signout = useAnimatedToggle(300);
   const closeSignoutSideBar = () => {
@@ -47,7 +53,9 @@ function Dashboard() {
     signout.close();
   };
 
-  // Closes sign out and modal when pressed esc
+  const currentUser = auth.currentUser;
+
+  // Closes sign out and sidebar when Escape is pressed
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key === "Escape") {
@@ -57,36 +65,67 @@ function Dashboard() {
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [signout.shouldRender, sidebar.shouldRender, signout, sidebar]);
+  }, [signout.shouldRender, sidebar.shouldRender]);
+
+  // Routers
+  const location = useLocation();
+  const navRefs = useRef([]);
+  const sections = [
+    {
+      title: "Monitoring",
+      path: "/dashboard/water-parameter-monitoring",
+      img: monitoringIcon,
+    },
+    {
+      title: "Feeding Management",
+      path: "/dashboard/feeding-management",
+      img: feedManagementIcon,
+    },
+    {
+      title: "Menu",
+      path: "/dashboard/settings",
+      img: settingsIcon, // no {}
+    },
+    {
+      title: "Sign Out",
+      path: null,
+      img: logoutIcon, // no {}
+    },
+  ];
+
+  // Active nav index based on current URL
+  const activeIndex =
+    sections.findIndex((sec) => location.pathname === sec.path) || 0;
 
   return (
     <>
-      {/* Sidebar */}
-      {sidebar.shouldRender && (
+      {/* Loading layout */}
+      {!readings && (
         <div
-          className={`side-bar-navigation ${
-            sidebar.animating ? "slide-in" : "slide-out"
-          }`}
-          onClick={(e) => {
-            // Only close if clicking the background, not a child
-            if (e.target.classList.contains("side-bar-navigation"))
-              sidebar.close();
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backdropFilter: "blur(20px)",
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            zIndex: 1000,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <button className="close-side-bar" onClick={sidebar.close}>
-            <img src={CloseBtnLight} />
-          </button>
-          <nav>
-            <h1 className="user-profile">Profile</h1>
-            <h1 className="settings">Settings</h1>
-            <h1 className="Help">Help</h1>
-            <h1 className="Logout" onClick={signout.open}>
-              Logout
-            </h1>
-          </nav>
+          <section className="dots-container">
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+          </section>
         </div>
       )}
-      {/* Signout modal */}
+
       {signout.shouldRender && (
         <>
           <div
@@ -103,7 +142,6 @@ function Dashboard() {
           >
             <h1>Are you sure you want to sign out?</h1>
             <button className="confirm-sign-out">
-              {/* Transition to Homepage */}
               <Link className="link-homepage" to="/">
                 Yes
               </Link>
@@ -120,37 +158,115 @@ function Dashboard() {
           </div>
         </>
       )}
+
+      {sidebar.shouldRender && (
+        <div
+          className={`side-bar-navigation ${
+            sidebar.animating ? "slide-in" : "slide-out"
+          }`}
+          onClick={(e) => {
+            if (e.target.classList.contains("side-bar-navigation")) {
+              sidebar.close();
+            }
+          }}
+        >
+          <button className="close-side-bar" onClick={sidebar.close}>
+            <img src={CloseBtnLight} alt="close" />
+          </button>
+          <nav>
+            <h1 className="user-profile">Profile</h1>
+            <h1 className="settings">Settings</h1>
+            <h1 className="help">Help</h1>
+            <h1 className="logout" onClick={signout.open}>
+              Logout
+            </h1>
+          </nav>
+        </div>
+      )}
       {/* MAIN DASHBOARD */}
       <div className="dashboard">
-        <div className="tilapia-bg-layout">
-          <img src={TilapiaBG} />
-        </div>
         <div className="top-bar">
           <section className="profile-section">
-            <img
-              className="profile-pic"
-              src={ProfilePic}
-              alt="profile"
-              title="profile picture"
-            />
+            <img className="logo" src={logo} alt="logo" title="logo" />
+
             <div className="profile-description">
-              <h3>Welcome back, Tilapia Farmer 1</h3>
-              <h4>profilename@gmail.com</h4>
+              {loading ? (
+                <p>Loading user info...</p>
+              ) : currentUser ? (
+                <>
+                  <h3>Welcome, {currentUser.displayName}</h3>
+                  <h4>{currentUser.email}</h4>
+                </>
+              ) : (
+                <>
+                  <h3>Welcome, Tilapia Farmer 1</h3>
+                  <h4>tilapiaFarmer@gmail.com</h4>
+                </>
+              )}
             </div>
           </section>
-          {/* Real Time Clock */}
-          <RealTimeClock />
-          <button className="menu" onClick={sidebar.open}>
-            <img src={MenuBtn} />
-          </button>
+
+          <section className="navigation-bar">
+            <div className="nav-items">
+              {sections.map((sec, index) =>
+                sec.title === "Menu" ? (
+                  <h1
+                    key={index}
+                    onClick={sidebar.open} // 🔹 Menu opens sidebar only
+                    className="menu-link"
+                  >
+                    <img src={sec.img} />
+                    {sec.title}
+                  </h1>
+                ) : sec.title == "Sign Out" ? (
+                  <h1
+                    key={index}
+                    onClick={signout.open} // 🔹 Menu opens sidebar only
+                    className="menu-link"
+                  >
+                    <img src={sec.img} />
+                    {sec.title}
+                  </h1>
+                ) : (
+                  <Link
+                    key={index}
+                    to={sec.path}
+                    style={{ textDecoration: "none" }}
+                    onClick={closeSignoutSideBar} // 🔹 Close sidebar & signout when navigating
+                  >
+                    {/* <img src={}/> */}
+                    <h1
+                      ref={(el) => (navRefs.current[index] = el)}
+                      className={activeIndex === index ? "active" : ""}
+                    >
+                      <img src={sec.img} />
+                      {sec.title}
+                    </h1>
+                  </Link>
+                )
+              )}
+
+              {/* Active background */}
+              <div
+                className="active-bg"
+                style={{
+                  width: navRefs.current[activeIndex]?.offsetWidth + "px",
+                  left: navRefs.current[activeIndex]?.offsetLeft + "px",
+                }}
+              />
+            </div>
+          </section>
         </div>
+
+        {/* Outlet renders child route */}
         <div className="content-section">
-          {/* Water Parameter Monitoring Section */}
-          <WaterParameters tmpReadings={tmpReadings} readings={readings} />
-          {/* Feeding Management Section */}
-          <FeedingManagement
-            sensorReadings={tmpReadings}
-            feedingSched={schedArr}
+          <Outlet
+            context={{
+              readings,
+              closeSignoutSideBar,
+              signout,
+              sidebar,
+            }}
           />
         </div>
       </div>
