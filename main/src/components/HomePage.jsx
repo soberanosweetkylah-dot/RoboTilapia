@@ -330,21 +330,7 @@ function HomePage() {
     <>
       {/* Loading layout */}
       {loading && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backdropFilter: "blur(20px)",
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
-            zIndex: 1000,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div className="fixed inset-0 w-screen h-screen backdrop-blur-2xl bg-black/30 z-[1000] flex justify-center items-center">
           <section className="dots-container">
             <div className="dot"></div>
             <div className="dot"></div>
