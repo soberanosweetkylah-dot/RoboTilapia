@@ -1,6 +1,7 @@
+// BUG fixed height for responsive desktop
+
 import React, { useState, useEffect } from "react";
 import "/src/index.css";
-import "/src/Homepage.css";
 
 // Routers
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -20,10 +21,6 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import { ref, set } from "firebase/database"; // Realtime Database
-
-// TODO: forgot password and change email LATER
-// TODO: responsive homepage
-// TODO: finalize homepage
 
 export const currentMachine = "machine0";
 
@@ -60,100 +57,6 @@ function HomePage() {
   });
 
   const [error, setError] = useState("");
-
-  // // Login
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   const { email, password } = login;
-
-  //   if (!email || !password) {
-  //     setError("Email and password are required.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const userCredential = await signInWithEmailAndPassword(
-  //       auth,
-  //       email,
-  //       password
-  //     );
-  //     console.log("Logged in user:", userCredential.user);
-  //     setError("");
-  //     navigate("/dashboard");
-  //   } catch (err) {
-  //     console.error("Login error:", err.code, err.message);
-  //     if (err.code === "auth/user-not-found")
-  //       setError("No account found with this email.");
-  //     else if (err.code === "auth/wrong-password")
-  //       setError("Incorrect password.");
-  //     else setError("Login failed. Please try again.");
-  //   }
-  // };
-
-  // // Signup
-  // const handleSignup = async (e) => {
-  //   e.preventDefault();
-  //   const { firstName, lastName, email, password, confirmPassword } = user;
-
-  //   if (!email || !firstName || !lastName || !password || !confirmPassword) {
-  //     setError("All fields are required.");
-  //     return;
-  //   }
-
-  //   if (password !== confirmPassword) {
-  //     setError("Passwords do not match.");
-  //     setUser((prev) => ({ ...prev, password: "", confirmPassword: "" }));
-  //     return;
-  //   }
-
-  //   try {
-  //     const userCredential = await createUserWithEmailAndPassword(
-  //       auth,
-  //       email,
-  //       password
-  //     );
-  //     const uid = userCredential.user.uid;
-
-  //     // Update displayName
-  //     await updateProfile(userCredential.user, {
-  //       displayName: `${firstName} ${lastName}`,
-  //     });
-
-  //     // Save user info in Realtime Database (safe fields only)
-  //     await set(ref(db, `users/${uid}`), {
-  //       machineId: currentMachine,
-  //       email,
-  //       displayName: `${firstName} ${lastName}`,
-  //       createdAt: Date.now(),
-  //     });
-
-  //     console.log("User saved to Realtime Database:", uid);
-
-  //     // Clear form and error
-  //     setUser({
-  //       firstName: "",
-  //       lastName: "",
-  //       email: "",
-  //       password: "",
-  //       confirmPassword: "",
-  //     });
-  //     setError("");
-
-  //     navigate("/dashboard");
-  //   } catch (err) {
-  //     console.error("Signup error:", err.code, err.message);
-  //     let message = "Something went wrong. Please try again.";
-
-  //     if (err.code === "auth/email-already-in-use")
-  //       message = "This email is already registered.";
-  //     else if (err.code === "auth/invalid-email")
-  //       message = "Invalid email format.";
-  //     else if (err.code === "auth/weak-password")
-  //       message = "Password should be at least 6 characters.";
-
-  //     setError(message);
-  //   }
-  // };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -293,8 +196,6 @@ function HomePage() {
     }
   };
 
-  //forgot password
-
   // Forgot password
   const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
@@ -330,70 +231,69 @@ function HomePage() {
     <>
       {/* Loading layout */}
       {loading && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backdropFilter: "blur(20px)",
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
-            zIndex: 1000,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <section className="dots-container">
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
+        <div className="fixed inset-0 w-screen  backdrop-blur-2xl bg-black/30 z-[1000] flex justify-center items-center">
+          <section className="flex items-center justify-center h-screen w-screen">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className={`
+                h-5 w-5 mr-[10px] last:mr-0 rounded-full bg-[#b3d4fc] animate-pulseDot
+              `}
+                style={{ animationDelay: `${i * 0.2 - 0.3}s` }} // delay handled inline since Tailwind doesn't support nth-child
+              />
+            ))}
           </section>
         </div>
       )}
 
+      {/* Top bar (shown only if modal is active) */}
       <div
-        className="top-bar"
-        style={{ display: showModal.authContainer ? "flex" : "none" }}
+        className={`w-full h-[60px] mt-5 flex justify-between items-center px-5 fixed top-0 left-0 bg-transparent z-[1000] ${
+          showModal.authContainer ? "flex" : "hidden"
+        }`}
       >
-        <div className="logo">
-          <img src="/src/assets/temp_logo.png" alt="Logo" />
+        <div className="flex items-center gap-[10px]">
+          <img
+            src="/src/assets/temp_logo.png"
+            className="h-[5rem] md:h-[7vw] lg:h-[8rem]"
+            alt="Logo"
+          />
         </div>
 
-        <div className="top-bar-right">
+        <div className="w-1/2 flex items-center justify-end gap-[15px] text-[clamp(15px,1.5vw,30px)] text-white  ">
           <h1>Accounts</h1>
           <h1>More</h1>
         </div>
       </div>
 
-      <div className="homepage-layout"></div>
-      <div className="homepage">
+      {/* Main page */}
+      <div className="m-0  min-h-[clamp(650px,100vh,100vh)] w-screen box-border  flex flex-col justify-center items-center bg-gradient-to-b from-[#001018] via-[#002033] to-[#0a436f]">
         <section
-          className="auth-container fade-in-1s"
-          style={{
-            display: showModal.authContainer ? "flex" : "none",
-            flexDirection: "column",
-            gap: "0px",
-          }}
+          className={`text-[#f9f8f7] flex flex-col items-center justify-end gap-0 ${
+            showModal.authContainer ? "flex animate-fade-in" : "hidden"
+          }`}
         >
-          <h1>
-            Robo<a>Tilapia</a>
+          <h1 className="text-[2.5rem] md:text-[6vw] lg:text-[3.2rem] font-extrabold drop-shadow-md">
+            Robo<span className="text-gray-500">Tilapia</span>
           </h1>
-          <p>A water parameter monitoring app</p>
-          <div className="homepage-button-container">
+          <p className="text-1xl md:text-2xl lg:text-1xl mb-[10%]">
+            A water parameter monitoring app
+          </p>
+          <div className="flex justify-center items-center mt-[5%] gap-4">
             <Link to="/login">
-              <button>Login</button>
+              <button className="w-[clamp(6rem,20vw,10rem)] h-[clamp(2.5rem,6vh, 4.5rem)] text-[clamp(14px,2vw,25px)] px-6 py-2 bg-blue-600  shadow hover:bg-blue-700  font-bold border-none rounded-[12px] bg-gradient-to-br from-sky-300 to-cyan-400 text-[#0b2132] cursor-pointer transition-all duration-300 ease-in-out relative">
+                Login
+              </button>
             </Link>
             <Link to="/signup">
-              <button>Signup</button>
+              <button className="w-[clamp(6rem,20vw,10rem)] h-[clamp(2.5rem,6vh, 4.5rem)] text-[clamp(14px,2vw,25px)] px-6 py-2 bg-gray-200  shadow hover:bg-gray-300  font-bold border-none rounded-[12px] bg-gradient-to-br from-sky-300 to-cyan-400 text-[#0b2132] cursor-pointer transition-all duration-300 ease-in-out relative">
+                Signup
+              </button>
             </Link>
           </div>
         </section>
 
-        <div className="form-section">
+        <section className="form-section w-full">
           <Outlet
             context={{
               showModal,
@@ -415,7 +315,7 @@ function HomePage() {
               setResetEmail,
             }}
           />
-        </div>
+        </section>
       </div>
     </>
   );
