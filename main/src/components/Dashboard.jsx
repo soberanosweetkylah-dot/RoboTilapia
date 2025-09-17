@@ -169,7 +169,7 @@ function Dashboard() {
 
           {/* Modal */}
           <div
-            className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-lg z-50 p-6 w-[clamp(280px,80%,400px)] transition-transform duration-300  ${
+            className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-lg z-50 p-6 w-[clamp(280px,80%,400px)] h-[clamp(150px,30vh,200px)] flex flex-col justify-center items-center transition-transform duration-300  ${
               signout.animating ? "scale-100 opacity-100" : "scale-95 opacity-0"
             }`}
             onClick={(e) => e.stopPropagation()}
@@ -208,27 +208,17 @@ function Dashboard() {
 
       {/* Loading layout */}
       {loading && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backdropFilter: "blur(20px)",
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
-            zIndex: 1000,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <section className="dots-container">
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
-            <div className="dot"></div>
+        <div className="fixed inset-0 w-screen  backdrop-blur-2xl bg-black/30 z-[1000] flex justify-center items-center">
+          <section className="flex items-center justify-center h-screen w-screen">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className={`
+                h-5 w-5 mr-[10px] last:mr-0 rounded-full bg-[#b3d4fc] animate-pulseDot
+              `}
+                style={{ animationDelay: `${i * 0.2 - 0.3}s` }} // delay handled inline since Tailwind doesn't support nth-child
+              />
+            ))}
           </section>
         </div>
       )}

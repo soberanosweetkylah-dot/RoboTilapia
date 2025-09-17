@@ -227,7 +227,7 @@ function WaterParameters() {
     chartType
   );
   return (
-    <div className="w-full min-h-[clamp(600px,90vh,750px)]   sm:[@media(min-width:800px)]:h-[2000px] md:h-[2000px] md:min-h-[400px] flex flex-col lg:flex-row overflow-x-auto overflow-y-auto lg:overflow-x-hidden gap-4 p-4">
+    <div className="w-full min-h-[clamp(600px,90vh,750px)]   sm:[@media(min-width:800px)]:h-[2000px] md:h-[2000px] md:min-h-[400px] flex flex-col lg:flex-row overflow-x-auto lg:overflow-auto lg:overflow-x-hidden gap-4 p-4 scrollbar-thin scrollbar-thumb-slate-400 scrollbar-track-transparent">
       {/* Sensor Data Section */}
       <section className="flex-1 flex flex-col gap-4 lg:ml-4 min-w-[280px] lg:min-w-0">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -303,7 +303,7 @@ function WaterParameters() {
 
       {/* Sensor Analytics Section */}
       <section
-        className="flex-1 flex flex-col items-center justify-between w-full lg:w-[60%] min-w-[280px] min-h-[400px] lg:min-w-0 bg-[#edeae49f] rounded-xl shadow-md p-4 h-[clamp(500px,80vh,800px)] overflow-y-hidden"
+        className="flex-1 flex flex-col items-center justify-between w-full lg:w-[60%] min-w-[280px] min-h-[400px] overflow-hidden lg:min-w-0 bg-[#edeae49f] rounded-xl shadow-md p-4 h-[clamp(500px,80vh,800px)] lg:mb-0 mb-10"
         ref={chartFocus}
       >
         <h1 className="flex items-center w-full text-[clamp(0.9rem,1.2vw,1.1rem)] font-medium mb-2">

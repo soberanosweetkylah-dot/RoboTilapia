@@ -125,11 +125,10 @@ function FeedingManagement() {
         grid
         grid-cols-1
         gap-4
-        min-h-[clamp(600px,90vh,700px)]
         md:[@media(min-width:680px)]:grid-cols-[1fr_1.5fr_2fr]
         md:[@media(min-width:680px)]:w-[1450px]
         md:[@media(min-width:800px)]:mx-auto
-        overflow-y-auto
+        overflow-y-hidden
         rounded-xl
         p-4
         items-stretch
@@ -138,7 +137,7 @@ function FeedingManagement() {
           {/* Left column - stacked */}
           <div className="grid grid-rows-2 gap-3 h-full">
             {/* Feed Level */}
-            <div className="feedlevel-container flex flex-col items-center justify-center rounded-xl bg-[#edeae47b] shadow-md p-4 h-[clamp(270px,49vh,320px)]">
+            <div className="feedlevel-container flex flex-col items-center justify-center rounded-xl bg-[#edeae47b] shadow-md p-4 h-[clamp(270px,49vh,300px)]">
               <h2 className="flex items-center w-full px-2 text-title font-medium">
                 <Gauge className="mr-2 h-5 w-5" />
                 Feed Level
@@ -155,7 +154,7 @@ function FeedingManagement() {
             </div>
 
             {/* Next Feed Schedule Status */}
-            <div className="next-feed-schedule-container flex flex-col rounded-xl bg-[#edeae47b] shadow-md p-4 h-[clamp(320px,49vh,320px)]">
+            <div className="next-feed-schedule-container flex flex-col rounded-xl bg-[#edeae47b] shadow-md p-4 h-[clamp(270px,49vh,300px)]">
               <h2 className="flex items-center text-title font-medium mb-2">
                 <Clock className="mr-2 h-5 w-5" />
                 Feed Schedule Status
@@ -213,7 +212,7 @@ function FeedingManagement() {
           {/* Middle column - Feed Input */}
           <form
             onSubmit={handleAddSchedule}
-            className="feed-input-container flex flex-col items-center justify-start rounded-xl bg-[#edeae46e] shadow-md p-3 min-h-[clamp(300px,100vh,400px)]  
+            className="feed-input-container flex flex-col items-center justify-start rounded-xl bg-[#edeae46e] shadow-md p-3 h-[clamp(300px,50vh,400px)]  
 "
           >
             <h2 className="flex items-center w-full text-title font-medium mb-2">
@@ -260,8 +259,8 @@ function FeedingManagement() {
           </form>
 
           {/* Right column - Feeding Schedule list */}
-          <div className="feed-schedule-list flex flex-col w-full rounded-xl bg-[#edeae47c] shadow-md p-4 h-[clamp(300px,100vh,600px)] [@media">
-            <div className="flex flex-row justify-between items-center mb-2">
+          <div className="feed-schedule-list flex flex-col w-full rounded-xl bg-[#edeae47c] shadow-md p-4 h-[clamp(500px,100vh,600px)] mb-10">
+            <div className="flex flex-row justify-between items-center lg:mb-0 mb-15">
               <h1 className="flex items-center text-title font-medium">
                 <ListChecks className="h-6 mr-2" />
                 Feeding Schedule
@@ -272,7 +271,7 @@ function FeedingManagement() {
                   : "Customized Schedule"}
               </h1>
             </div>
-            <div className="feeding-schedule-scrollable flex items-center flex-col w-full overflow-y-auto border-y border-[#15314730] flex-1">
+            <div className="feeding-schedule-scrollable flex items-center flex-col w-full overflow-y-auto overflow-x-hidden border-y border-[#15314730] flex-1">
               {feedingSchedules.loading && <p>Loading schedules...</p>}
               {!feedingSchedules.loading &&
                 schedArr.map((sched) => {
