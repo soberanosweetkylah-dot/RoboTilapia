@@ -1,5 +1,110 @@
 @import "tailwindcss";
 
+@layer utilities {
+  @keyframes pulseDot {
+    0% {
+      transform: scale(0.8);
+      background-color: #b3d4fc;
+      box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+    }
+    50% {
+      transform: scale(1.2);
+      background-color: #6793fb;
+      box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
+    }
+    100% {
+      transform: scale(0.8);
+      background-color: #b3d4fc;
+      box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+    }
+  }
+
+  .animate-pulseDot {
+    animation: pulseDot 1.5s infinite ease-in-out;
+  }
+  /* Handle nth-child delays */
+  .dot:nth-child(1) {
+    animation-delay: -0.3s;
+  }
+  .dot:nth-child(2) {
+    animation-delay: -0.1s;
+  }
+  .dot:nth-child(3) {
+    animation-delay: 0.1s;
+  }
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes slide-out {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-slide-in {
+    animation: slide-in 0.3s forwards;
+  }
+  .animate-slide-out {
+    animation: slide-out 0.3s forwards;
+  }
+
+  /* Modal fade animations */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s forwards;
+  }
+  .animate-fade-out {
+    animation: fade-out 0.5s forwards;
+  }
+
+  .animate-fade-in-1s {
+    animation: fade-in 1s forwards;
+  }
+  .animate-fade-out-1s {
+    animation: fade-out 1s forwards;
+  }
+
+  /* Feeding management */
+  /* 1. Modal Title  */
+  .text-title {
+    font-size: clamp(15px, 1.5vw, 16px);
+  }
+  .navy-blue-text {
+    color: #002033;
+  }
+
+  /* Feed schedule list phone height */
+  @media (min-width: 680px) {
+    .h--30vh {
+      height: 10vh;
+    }
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -10,18 +115,15 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  overflow-y: hidden;
-}
-
-body {
-  min-height: 100vh;
-  width: 100%;
-  /* Remove width: 100vw; if you had it */
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+  height: 100vh !important;
+  width: 100vw;
 }
 
 :root {
-  font-family: "Noto Sans Devanagari", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 

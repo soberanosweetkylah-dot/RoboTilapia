@@ -8,6 +8,7 @@ import tempIcon from "/src/assets/monitoring-icons/temperature.png";
 import pHIcon from "/src/assets/monitoring-icons/pH.png";
 import DOIcon from "/src/assets/monitoring-icons/dissolved-oxygen.png";
 import analyticsIcon from "/src/assets/monitoring-icons/analytics.png";
+import { Droplet, TestTube, Thermometer, Wind, BarChart3 } from "lucide-react";
 
 function WaterParameters() {
   // Sample data for chart for hourly readings
@@ -217,126 +218,115 @@ function WaterParameters() {
     }),
     []
   );
-  const chartRef = useChart(sensorData[chart], {}, chartType);
+  const chartRef = useChart(
+    sensorData[chart],
+    {
+      responsive: true, // automatically resizes chart on window resize
+      maintainAspectRatio: false, // allows chart to fill parent container
+    },
+    chartType
+  );
   return (
-    <div className="water-parameter-data">
-      <section className="sensor-data-section">
-        <div className="sensor-data-container">
-          <div onClick={activateChart}>
-            <section>
-              <h2>
-                <img src={ammoniaIcon} />
-                Ammonia level
-              </h2>
-              <h3 style={colorCode("ammonia", readings?.ammonia)}>
-                {statusText("ammonia", readings?.ammonia)}
-              </h3>
-            </section>
-            <p
-              className="ammonia"
-              style={colorCode("ammonia", readings?.ammonia, 1)}
+    <div className="w-full min-h-[clamp(600px,90vh,750px)]   sm:[@media(min-width:800px)]:h-[2000px] md:h-[2000px] md:min-h-[400px] flex flex-col lg:flex-row overflow-x-auto overflow-y-auto lg:overflow-x-hidden gap-4 p-4">
+      {/* Sensor Data Section */}
+      <section className="flex-1 flex flex-col gap-4 lg:ml-4 min-w-[280px] lg:min-w-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Sensor Cards */}
+          {["ammonia", "pH", "temperature", "fishBehavior"].map((param) => (
+            <div
+              key={param}
+              onClick={() => {
+                setChart(param); // update chart
+                // scroll to chart section
+                chartFocus.current?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+              className={`flex flex-col items-center justify-between bg-[#edeae468] p-4 rounded-xl shadow-md cursor-pointer hover:bg-[#c9ced06d] transition h-[200px] sm:h-auto sm:min-h-[240px] w-full`}
             >
-              {readings?.ammonia} ppm
-            </p>
-            <h3>Optimal Range: 0ppm</h3>
-          </div>
-
-          {/* pH sensor readings */}
-          <div onClick={activateChart}>
-            <section>
-              <h2>
-                <img src={pHIcon} />
-                pH level
-              </h2>
-              <h3 style={colorCode("pH", readings?.pH)}>
-                {statusText("pH", readings?.pH)}
+              <section className="flex justify-between items-center w-full">
+                <h2 className="flex items-center text-[clamp(0.9rem,1vw,1.1rem)] font-semibold">
+                  {param === "ammonia" && (
+                    <Droplet className="h-6 w-6 mr-2 text-[#002033]" />
+                  )}
+                  {param === "pH" && (
+                    <TestTube className="h-6 w-6 mr-2 text-[#002033]" />
+                  )}
+                  {param === "temperature" && (
+                    <Thermometer className="h-6 w-6 mr-2 text-[#002033]" />
+                  )}
+                  {param === "fishBehavior" && (
+                    <Wind className="h-6 w-6 mr-2 text-[#002033]" />
+                  )}
+                  {param === "ammonia"
+                    ? "Ammonia Level"
+                    : param === "pH"
+                    ? "pH Level"
+                    : param === "temperature"
+                    ? "Temperature"
+                    : "Dissolved Oxygen"}
+                </h2>
+                <h3
+                  style={colorCode(param, readings?.[param])}
+                  className="px-3 py-1 rounded-lg text-white text-[clamp(0.7rem,0.9vw,0.9rem)]"
+                >
+                  {statusText(param, readings?.[param])}
+                </h3>
+              </section>
+              <p
+                className="text-center font-bold text-[clamp(35px,2.5vw,340px)] flex items-center justify-center flex-1"
+                style={colorCode(param, readings?.[param], 1)}
+              >
+                {param === "fishBehavior"
+                  ? readings?.fishBehavior <= 3
+                    ? "Normal"
+                    : "Above Normal"
+                  : readings?.[param]}{" "}
+                {param === "temperature"
+                  ? "°C"
+                  : param === "ammonia"
+                  ? "ppm"
+                  : param === "pH"}
+              </p>
+              <h3 className="text-[clamp(15px,1vw,20px)] text-center font-medium">
+                {param === "ammonia" && "Optimal Range: 0ppm"}
+                {param === "pH" && "Optimal Range: 7.0 - 7.5"}
+                {param === "temperature" && "Optimal Range: 24 - 27°C"}
+                {param === "fishBehavior" &&
+                  `${readings?.fishBehavior} detections/min of Surface Respiration`}
               </h3>
-            </section>
-
-            <p className="pH" style={colorCode("pH", readings?.pH, 1)}>
-              {readings?.pH}
-            </p>
-            <h3>Optimal Range: 7.0 - 7.5</h3>
-          </div>
-
-          {/* Temperature sensor readings */}
-          <div onClick={activateChart}>
-            <section>
-              <h2>
-                <img src={tempIcon} />
-                Temperature
-              </h2>
-              <h3 style={colorCode("temperature", readings?.temperature)}>
-                {statusText("temperature", readings?.temperature)}
-              </h3>
-            </section>
-
-            <p
-              className="temperature"
-              style={colorCode("temperature", readings?.temperature, 1)}
-            >
-              {readings?.temperature} C
-            </p>
-            <h3>Optimal Range: 24 - 27</h3>
-          </div>
-
-          {/* Fish Behavior sensor readings */}
-          <div>
-            <section>
-              <h2>
-                <img src={DOIcon} />
-                Dissolved Oxygen
-              </h2>
-              <h3 style={colorCode("fishBehavior", readings?.fishBehavior)}>
-                {statusText("fishBehavior", readings?.fishBehavior)}
-              </h3>
-            </section>
-            <p
-              onClick={activateChart}
-              style={colorCode("fishBehavior", readings?.fishBehavior, 1)}
-            >
-              {readings?.fishBehavior <= 3 ? "Normal" : "Above Normal"}
-            </p>
-
-            <h3>{readings?.fishBehavior} detections/min</h3>
-            {/* <p className="fish-behavior-detection-rate">
-              {readings.detectionRate} detection/min
-            </p> */}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
-      <section className="sensor-analytics-section" ref={chartFocus}>
-        <h1>
-          {" "}
-          <img src={analyticsIcon} />
-          Sensor Analytics
-        </h1>
-        <div className="chart-container">
-          <canvas style={{ flex: "1", width: "100%" }} ref={chartRef} />
-        </div>
-        <div className="chart-descriptions">
-          <div className="period-toggle-container">
-            <label className="period-toggle">
-              <input
-                type="radio"
-                name="period"
-                value="daily"
-                checked={chartPeriod === "daily"}
-                onChange={() => setChartPeriod("daily")}
-              />
-              Daily
-            </label>
 
-            <label className="period-toggle">
-              <input
-                type="radio"
-                name="period"
-                value="weekly"
-                checked={chartPeriod === "weekly"}
-                onChange={() => setChartPeriod("weekly")}
-              />
-              Weekly
-            </label>
+      {/* Sensor Analytics Section */}
+      <section
+        className="flex-1 flex flex-col items-center justify-between w-full lg:w-[60%] min-w-[280px] min-h-[400px] lg:min-w-0 bg-[#edeae49f] rounded-xl shadow-md p-4 h-[clamp(500px,80vh,800px)] overflow-y-hidden"
+        ref={chartFocus}
+      >
+        <h1 className="flex items-center w-full text-[clamp(0.9rem,1.2vw,1.1rem)] font-medium mb-2">
+          <BarChart3 className="h-6 w-6 mr-2 text-[#002033]" /> Sensor Analytics
+        </h1>
+        <div className="chart-container flex-1 w-full min-h-[250px]">
+          <canvas className="w-full h-full" ref={chartRef}></canvas>
+        </div>
+
+        <div className="chart-descriptions mt-4 flex flex-col items-start w-full">
+          <div className="period-toggle-container flex gap-4 bg-gray-200 p-3 rounded-lg text-gray-800 font-medium text-[clamp(0.7rem,0.9vw,0.9rem)]">
+            {["daily", "weekly"].map((period) => (
+              <label key={period} className="flex items-center gap-1">
+                <input
+                  type="radio"
+                  name="period"
+                  value={period}
+                  checked={chartPeriod === period}
+                  onChange={() => setChartPeriod(period)}
+                />
+                {period.charAt(0).toUpperCase() + period.slice(1)}
+              </label>
+            ))}
           </div>
         </div>
       </section>
@@ -357,14 +347,13 @@ const colorCode = (sensor, readings, val) => {
 
   switch (sensor) {
     case "temperature": {
-      // Optimal: 24–27 °C
       if (readings >= 24 && readings <= 27) {
         styleColor = "#118711ff"; // green
       } else if (
         (readings > 27 && readings <= 28) ||
         (readings < 24 && readings >= 22)
       ) {
-        styleColor = "#8a9406ff"; // yellow
+        styleColor = "#E6C200"; // medium golden yellow
       } else {
         styleColor = "#de2e2e"; // red
       }
@@ -372,26 +361,24 @@ const colorCode = (sensor, readings, val) => {
     }
 
     case "ammonia": {
-      // Optimal: 0 ppm
       if (readings === 0) {
         styleColor = "#118711ff"; // green
       } else if (readings > 0 && readings <= 0.02) {
-        styleColor = "#8a9406ff"; // yellow (slightly high but tolerable)
+        styleColor = "#E6C200"; // medium golden yellow
       } else {
-        styleColor = "#de2e2e"; // red (bad)
+        styleColor = "#de2e2e"; // red
       }
       break;
     }
 
     case "pH": {
-      // Optimal: 7.0–7.5
       if (readings >= 7.0 && readings <= 7.5) {
         styleColor = "#118711ff"; // green
       } else if (
         (readings >= 6.8 && readings < 7.0) ||
         (readings > 7.5 && readings <= 7.7)
       ) {
-        styleColor = "#8a9406ff"; // yellow
+        styleColor = "#E6C200"; // medium golden yellow
       } else {
         styleColor = "#de2e2e"; // red
       }
@@ -399,11 +386,10 @@ const colorCode = (sensor, readings, val) => {
     }
 
     case "fishBehavior": {
-      // Dissolved oxygen proxy → Optimal: 0–3 detections/min
       if (readings >= 0 && readings <= 3) {
         styleColor = "#118711ff"; // green
       } else {
-        styleColor = "#de2e2e"; // red (too high)
+        styleColor = "#de2e2e"; // red
       }
       break;
     }
