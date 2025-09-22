@@ -10,6 +10,8 @@ import { Monitor, Settings, LogOut, Droplet, X } from "lucide-react"; // Droplet
 import { auth } from "../firebase.js";
 import { useAnimatedToggle, useReadDatabase } from "./utils.jsx";
 
+export const currentUser = auth.currentUser;
+
 function Dashboard() {
   const { readings, loading } = useReadDatabase("/sensors");
   const sidebar = useAnimatedToggle(300);
@@ -19,8 +21,6 @@ function Dashboard() {
     signout.close();
   };
   const navigate = useNavigate();
-
-  const currentUser = auth.currentUser;
 
   const [sections, setSections] = useState([
     {

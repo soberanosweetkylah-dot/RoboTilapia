@@ -14,6 +14,8 @@ import LoginPage from "./components/LoginPage.jsx";
 import WaterParameters from "./components/WaterParameters.jsx";
 import FeedingManagement from "./components/FeedingManagement.jsx";
 import SettingsPage from "./components/Settings.jsx";
+// import SettingsPage from "./components/SettingsPage.jsx";
+import Settings from "./components/Settings.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,7 +26,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard", 
+    path: "/dashboard",
     element: <DashBoard />,
     children: [
       {
@@ -33,7 +35,7 @@ const router = createBrowserRouter([
       },
       { path: "water-parameter-monitoring", element: <WaterParameters /> },
       { path: "feeding-management", element: <FeedingManagement /> },
-      { path: "settings", element: <SettingsPage /> },
+      { path: "settings", element: <Settings /> },
     ],
   },
   {
