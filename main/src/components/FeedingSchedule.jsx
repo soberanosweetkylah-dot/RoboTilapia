@@ -1,6 +1,5 @@
 import React from "react";
 import DeleteBtn from "../assets/delete-btn.png";
-import "../Dashboard.css";
 import { Trash2 } from "lucide-react";
 
 function FeedingSchedule({ id, sched, onToggle, onSoftDelete, onHardDelete }) {
